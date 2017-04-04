@@ -10,10 +10,7 @@
 (struct test-dir (name make clean) #:transparent)
 
 (define targets
-  '(math-flonum
-    new-metrics
-    old-metrics)
-  #;'(acquire
+  '(acquire
     dungeon
     forth
     fsm
