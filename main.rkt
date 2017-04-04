@@ -18,13 +18,14 @@
     new-metrics
     old-metrics
     parser
-    schml-flatten-values
+    ;schml-flatten-values this occassionally takes too long to type check =O
     schml-interp-casts-help
     schml-specify-rep))
 
 (define verbose-flag? #f)
 (define plot-flag? #f)
 (define single-target? #f)
+(define iters 5)
 
 (define-values (control-bin test-bin)
   (command-line
@@ -38,6 +39,14 @@
    [("-t" "--target") target
                       "Only build a single target"
                       (set! single-target? (string->symbol target))]
+   [("-i" "--iters") i
+                      "How many iterations?"
+                      (let ([n (string->number i)])
+                        (if (exact-positive-integer? n)
+                            (set! iters n)
+                            (error 'tr-performance
+                                   "~a is not a valid number of iterations"
+                                   n)))]
    #:args (control test) ; expect one command-line argument: <filename>
    ; return the argument as a filename to compile
    (values control test)))
@@ -67,6 +76,8 @@
 
 ;; time the build of dir/main.rkt
 (define (time-single-build dir raco)
+  (unless (system (format "rm -fr ~a/compiled" dir))
+    (error 'tr-performance "failed to remove compiled dir for ~a" dir))
   (match-define (list inp outp pid errp cmd)
     (process (format "/usr/bin/time -p ~a make ~a/main.rkt" raco dir)))
 
@@ -75,8 +86,6 @@
   (close-input-port errp)
   (close-input-port inp)
   (cmd 'kill)
-  (unless (system (format "rm -fr ~a/compiled" dir))
-    (error 'tr-performance "failed to remove compiled dir for ~a" dir))
   (match result
     [(list "real" time-str) (string->number time-str)]
     [_ (error 'tr-performance "failed to time build for ~a, got ~a" dir result)]))
@@ -85,7 +94,6 @@
 (define (time-dir dir raco)
   (printf "building ~a" dir)
   (flush-output)
-  (define iters 10)
   (define times (for/list ([_ (in-range iters)])
                   (begin0 (time-single-build dir raco)
                           (printf ".")
