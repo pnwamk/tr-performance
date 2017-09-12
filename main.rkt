@@ -105,7 +105,7 @@
     (printf "~a make ~a:\n  times ~a\n  mean ~a\n  stddev ~a\n"
             raco dir  times m s))
   (printf "done with ~a\n" dir)
-  m)
+  (values m s))
 
 (define results '())
 
@@ -116,23 +116,23 @@
    (set! results (cons (list single-target? control-mean test-mean)
                        results))]
   [else (for ([t (in-list targets)])
-          (define control-mean (time-dir t raco-control))
-          (define test-mean (time-dir t raco-test))
-          (set! results (cons (list t control-mean test-mean)
+          (define-values (control-mean control-std-dev) (time-dir t raco-control))
+          (define-values (test-mean test-std-dev) (time-dir t raco-test))
+          (set! results (cons (list t control-mean control-std-dev test-mean test-std-dev)
                               results)))])
 
-(printf "\nresults:\n")
+(printf "\nCompile time ratio (old time / new time):\n")
 ;; print out results
 (for ([r (in-list results)])
   (match r
-    [(list name control test)
-     (define Δ (* 100 (/ (- test control) control)))
-     (printf "~a: ~a% ~a (~as to ~as)\n"
+    [(list name control csig test tsig)
+     (define ratio (/ control test))
+     (printf "~a: ~a (i.e. ~a, ~as (σ ~a) to ~as (σ ~a))\n"
              name
-             (round2digit (abs Δ))
-             (if (positive? Δ) 'slower 'faster)
-             control
-             test)]))
+             (round2digit ratio)
+             (if (>= 1 ratio) 'slower 'faster)
+             control csig
+             test tsig)]))
 
 (when plot-flag?
   (let-values
