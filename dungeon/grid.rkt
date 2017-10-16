@@ -15,13 +15,9 @@
 
 (require
   "cell-types.rkt"
-  require-typed-check
   ;math/array ;; TODO it'd be nice to use this
 )
-(require/typed/check "cell.rkt"
-  (char->cell% (-> Char Cell%))
-  (void-cell% Cell%)
-)
+(require "cell.rkt")
 
 ;; =============================================================================
 

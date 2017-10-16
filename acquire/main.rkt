@@ -6,23 +6,14 @@
 ;; -----------------------------------------------------------------------------
 
 (require
-  require-typed-check
   racket/list
   typed/racket/class
   "board-adapted.rkt"
   "state-adapted.rkt"
   )
-(require/typed/check "admin.rkt"
-  (administrator% Administrator%)
-  )
-(require/typed/check "player.rkt"
- (random-players (-> Natural (Listof (Instance Player%))))
- (ordered-players (-> Natural (Listof (Instance Player%))))
- (inf-loop-player (-> Natural (Instance Player%)))
-)
-(require/typed/check "auxiliaries.rkt"
-  (randomly-pick (-> (Listof Tile) Tile))
-)
+(require "admin.rkt")
+(require "player.rkt")
+(require "auxiliaries.rkt")
 
 ;; =============================================================================
 

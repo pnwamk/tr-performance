@@ -139,34 +139,11 @@
 ;; IMPLEMENTATION: 
 
 (require
- require-typed-check
  "types.rkt"
  "board-adapted.rkt"
  )
-(require/typed/check "basics.rkt"
-  (ALL-HOTELS (Listof Hotel))
-  (CASH0 Cash)
-  (FINAL# Natural)
-  (SAFE# Natural)
-  (banker-shares0 Shares)
-  (bonus (-> M*ority Hotel Natural Cash))
-  (cash? (-> Any Boolean))
-  (player-shares0 Shares)
-  (price-per-share (-> Hotel Natural (Option Cash)))
-  (shares++ (-> Shares Hotel Shares))
-  (shares-- (-> Shares Hotel Shares))
-  (shares->string (-> Shares String))
-  (shares-available (-> Shares Hotel Share))
-  (shares-available? (-> Shares (Listof Hotel) Boolean))
-  (shares-combinable? (-> (Listof Shares) Boolean))
-  (shares-order? (-> Any Boolean))
-  (shares-minus (-> Shares Shares Shares))
-  (shares-plus (-> Shares Shares Shares))
-)
-(require/typed/check "auxiliaries.rkt"
-  (aux:partition (All (A B) (-> (Listof A) (-> A Real) (-> A B) (Listof (Listof B)))))
- (distinct (-> (Listof Any) Boolean))
- )
+(require "basics.rkt")
+(require "auxiliaries.rkt")
 
 ;; -----------------------------------------------------------------------------
 ;;bg; duplicated in state-adapted.rkt

@@ -1,11 +1,8 @@
 #lang typed/racket/base
 
 (require
-  require-typed-check
   "command-types.rkt")
-(require/typed/check "eval.rkt"
-  (forth-eval* (-> Input-Port (Values Any Any)))
-)
+(require "eval.rkt")
 
 ;; =============================================================================
 

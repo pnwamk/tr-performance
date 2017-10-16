@@ -13,24 +13,12 @@
 ;; IMPLEMENTATION 
 
 (require
- require-typed-check
  "types.rkt"
  "state-adapted.rkt"
 )
-(require/typed/check "admin.rkt"
-  (administrator% Administrator%)
-  (turn% Turn%)
-)
-(require/typed/check "basics.rkt"
-  (player-shares0 Shares)
-  (*combine-shares (-> (Listof Shares) Shares))
-  (shares-minus (-> Shares Shares Shares))
-  (banker-shares0 Shares)
-)
-(require/typed/check "strategy.rkt"
-  (ordered-s Strategy)
-  (random-s Strategy)
-)
+(require "admin.rkt")
+(require "basics.rkt")
+(require "strategy.rkt")
 
 ;; -----------------------------------------------------------------------------
 
