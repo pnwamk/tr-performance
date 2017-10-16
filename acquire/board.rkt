@@ -100,22 +100,10 @@
 ;; IMPLEMENTATION: SPOTS
 
 (require
- require-typed-check
  "types.rkt"
  )
-(require/typed/check "basics.rkt"
- (hotel? (-> Any Boolean))
- (SAFE# Natural)
- (price-per-share (-> Hotel Natural (Option Cash)))
- (shares-order? (-> Any Boolean))
- (hotel->color (-> Hotel Color))
- (hotel->label (-> Hotel String))
-)
-(require/typed/check "auxiliaries.rkt"
-  (aux:partition (All (A B) (-> (Listof A) (-> A Real) (-> A B) (Listof (Listof B)))))
-  (distinct (-> (Listof Any) Boolean))
-  (randomly-pick (All (A) (-> (Listof A) A)))
-)
+(require "basics.rkt")
+(require "auxiliaries.rkt")
 
 (define-type Board (HashTable Tile Content))
 (define-type HT (Listof Tile)) ;; Should have at least 2 members

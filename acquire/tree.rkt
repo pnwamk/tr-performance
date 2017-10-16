@@ -9,15 +9,11 @@
 )
 
 (require
-  require-typed-check
   "types.rkt"
   "board-adapted.rkt"
   "state-adapted.rkt"
 )
-(require/typed/check "basics.rkt"
-  (shares-available? (-> Shares (Listof Hotel) Boolean))
-  (shares-order? (-> Any Boolean))
-)
+(require "basics.rkt")
 
 ;; =============================================================================
 

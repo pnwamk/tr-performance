@@ -5,19 +5,13 @@
 ;; -----------------------------------------------------------------------------
 
 (require
-  require-typed-check
   racket/match
   typed/racket/class
   "command-types.rkt"
   (only-in racket/port with-input-from-string)
 )
-(require/typed/check "command.rkt"
-  (CMD* (Listof (Instance Command%)))
-  (command% Command%)
-)
-(require/typed/check "stack.rkt"
-  (stack-init (-> Stack))
-)
+(require "command.rkt")
+(require "stack.rkt")
 
 ;; =============================================================================
 

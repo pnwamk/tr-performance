@@ -12,23 +12,12 @@
 ;; IMPLEMENTATION
 
 (require
- require-typed-check
  "types.rkt"
  "board-adapted.rkt"
  "state-adapted.rkt"
  )
-(require/typed/check "basics.rkt"
-  (ALL-HOTELS (Listof Hotel))
-  (SHARES-PER-TURN# Integer)
-  (hotel<=? (-> Hotel Hotel Boolean))
-  (price-per-share (-> Hotel Natural (Option Cash)))
-  (shares++ (-> Shares Hotel Shares))
-  (shares-- (-> Shares Hotel Shares))
-  (shares-available (-> Shares Hotel Share))
-)
-(require/typed/check "auxiliaries.rkt"
-  (randomly-pick (All (A) (-> (Listof A) A)))
-  )
+(require "basics.rkt")
+(require "auxiliaries.rkt")
 
 (: nat-SHARES-PER-TURN# Natural)
 (define nat-SHARES-PER-TURN# (assert SHARES-PER-TURN# exact-nonnegative-integer?))

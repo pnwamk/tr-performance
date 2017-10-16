@@ -9,23 +9,8 @@
 (define-type Transition* [Vectorof Transition])
 (define-type Transition [Vectorof State])
 
-(require require-typed-check)
 (require (only-in "automata.rkt" Automaton))
-(require/typed/check "automata.rkt"
- (automaton-payoff (-> Automaton Payoff))
- (defects (-> Payoff Automaton))
- (cooperates (-> Payoff Automaton))
- (tit-for-tat (-> Payoff Automaton))
- (grim-trigger (-> Payoff Automaton))
- (make-random-automaton
-  (-> Natural Automaton))
- (match-pair
-   (-> Automaton Automaton Natural (values Automaton Automaton)))
- (automaton-reset
-  (-> Automaton Automaton))
- (clone
-  (-> Automaton Automaton))
-)
+(require "automata.rkt")
 
 (provide
 defects cooperates tit-for-tat grim-trigger match-pair automaton-reset clone

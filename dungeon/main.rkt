@@ -9,7 +9,6 @@
 ;; -----------------------------------------------------------------------------
 
 (require
-  require-typed-check
   typed/racket/class
   "cell-types.rkt"
   racket/match
@@ -28,43 +27,9 @@
     (if (and (not (unbox ok)) (equal? (car x) p))
       (begin (set-box! ok #t) (cons p c))
       x)))
-(require/typed/check "cell.rkt"
-  (void-cell% Cell%)
-  (wall% Cell%)
-  (door% Door%)
-  (vertical-door% Door%)
-  (horizontal-door% Door%)
-  (horizontal-wall% Cell%)
-  (four-corner-wall% Cell%)
-  (pillar% Cell%)
-  (vertical-wall% Cell%)
-  (north-west-wall% Cell%)
-  (north-east-wall% Cell%)
-  (south-west-wall% Cell%)
-  (south-east-wall% Cell%)
-  (north-tee-wall% Cell%)
-  (west-tee-wall% Cell%)
-  (east-tee-wall% Cell%)
-  (south-tee-wall% Cell%)
-  (empty-cell% Cell%)
-)
-(require/typed/check "grid.rkt"
-  (array-set! (-> Grid Pos (Instance Cell%) Void))
-  (build-array (-> Pos (-> Any (Instance Cell%)) Grid))
-  (left (->* (Pos) (Index) Pos))
-  (right (->* (Pos) (Index) Pos))
-  (up (->* (Pos) (Index) Pos))
-  (down (->* (Pos) (Index) Pos))
-  (grid-ref (-> Grid Pos (U #f (Instance Cell%))))
-  (grid-height (-> Grid Index))
-  (grid-width (-> Grid Index))
-  (show-grid (-> Grid String))
-)
-(require/typed/check "utils.rkt"
-  (random (-> Integer Natural))
-  (random-between (-> Integer Integer Integer))
-  (random-from (All (A) (-> (Listof A) A)))
-)
+(require "cell.rkt")
+(require "grid.rkt")
+(require "utils.rkt")
 
 ;; =============================================================================
 (define-type Poss->Cells (Listof (Pairof Pos Cell%)))

@@ -11,7 +11,6 @@
   tree-next
 )
 (require
-  require-typed-check
   "types.rkt"
   "board-adapted.rkt"
   "state-adapted.rkt"

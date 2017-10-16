@@ -14,13 +14,10 @@
 ;; -----------------------------------------------------------------------------
 
 (require
- require-typed-check
  typed/racket/class
  "cell-types.rkt"
 )
-(require/typed/check "message-queue.rkt"
-  (enqueue-message! (-> String Void))
-)
+(require "message-queue.rkt")
 ;(require/typed racket/dict
 ;  (dict-ref (-> CCTable Char Cell%))
 ;  (dict-set! (-> CCTable Char Cell% Void)))

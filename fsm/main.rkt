@@ -4,20 +4,9 @@
 (random-seed 7480)
 
 ;; =============================================================================
-(require require-typed-check
- "automata-adapted.rkt")
-(require/typed/check "population.rkt"
- (build-random-population
-  (-> Natural Population))
- (population-payoffs (-> Population [Listof Payoff]))
- (death-birth
-  (-> Population Natural [#:random (U False Real)] Population))
- (match-up*
-  (-> Population Natural Population))
-)
-(require/typed/check "utilities.rkt"
- (relative-average (-> [Listof Real] Real Real))
-)
+(require "automata-adapted.rkt")
+(require "population.rkt")
+(require "utilities.rkt")
 
 ;; effect: run timed simulation, create and display plot of average payoffs
 ;; effect: measure time needed for the simulation

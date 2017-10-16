@@ -2,8 +2,6 @@
 
 A thrown together tool for some rough measurements on some Typed Racket typecheck times.
 
-Note: requires `require-typed-check` to be installed on the control and test racket installs
-
 Usage details:
 
 ```

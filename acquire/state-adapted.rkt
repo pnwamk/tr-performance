@@ -7,45 +7,11 @@
 ;; including a data structure for internalizing the state of the players
 
 (require
- require-typed-check
  "board-adapted.rkt"
  "types.rkt"
  typed/racket/class)
 
-(require/typed/check "state.rkt"
-  (score? (-> Any Boolean))
-  (#:struct player (
-    [name : String]
-    [tiles : (Listof Tile)]
-    [money : Cash]
-    [shares : Shares]
-    [external : (Option (Instance Player%))]))
-  (#:struct state
-   ([board : Board]
-    [players : (Listof Player)]
-    [tiles : (Listof Tile)]
-    [hotels : (Listof Hotel)]
-    [shares : Shares]
-    [bad : (Listof Player)]))
-  ;; --
-  (*create-player (-> String Cash Shares (Listof Tile) Player))
-  (player0 (-> String Tile Tile Tile Tile Tile Tile (Instance Player%) Player))
-  (state0 (-> Player * State))
-  (state-sub-shares (-> State Shares State))
-  (*cs0 (-> String * State))
-  (*create-state (-> Board (Listof Player) State))
-  (state-place-tile (->* (State Tile) ((Option Hotel)) State))
-  (state-move-tile (-> State Tile State))
-  (state-next-turn (-> State State))
-  (state-remove-current-player (-> State State))
-  (state-eliminate (-> State (Listof Player) State))
-  (state-current-player (-> State Player))
-  (state-buy-shares (-> State (Listof Hotel) State))
-  (state-return-shares (->* [State Decisions] [Board] State))
-  (state-score (-> State (Listof (List String Cash))))
-  (state-final? (-> State Boolean))
-)
-
+(require "state.rkt")
 (define-type State state)
 (define-type Player player)
 
