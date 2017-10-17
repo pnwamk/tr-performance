@@ -111,9 +111,9 @@
 
 (cond
   [single-target?
-   (define control-mean (time-dir single-target? raco-control))
-   (define test-mean (time-dir single-target? raco-test))
-   (set! results (cons (list single-target? control-mean test-mean)
+   (define-values (control-mean control-std-dev) (time-dir single-target? raco-control))
+   (define-values (test-mean test-std-dev) (time-dir single-target? raco-test))
+   (set! results (cons (list single-target? control-mean control-std-dev test-mean test-std-dev)
                        results))]
   [else (for ([t (in-list targets)])
           (define-values (control-mean control-std-dev) (time-dir t raco-control))
