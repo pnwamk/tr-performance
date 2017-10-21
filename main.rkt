@@ -36,7 +36,9 @@
                        (set! verbose-flag? #t)]
    [("-p" "--plot") "Plot results"
                     (set! plot-flag? #t)]
-   [("--no-warmup") "Skip the warmup run. USE AT YOUR OWN RISK."
+   ;; to ensure we're not timing building the dependencies of a program and including
+   ;; that in the program's build time, we run a "warmup" run first by default.
+   [("--no-warmup") "Skip the warmup run. Warning: timimg may include building dependencies."
                     (set! warmup? #false)]
    #:multi
    [("-t" "--target") target
