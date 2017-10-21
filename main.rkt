@@ -25,6 +25,7 @@
 (define verbose-flag? #f)
 (define plot-flag? #f)
 (define single-target? #f)
+(define warmup? #true)
 (define iters 5)
 
 (define-values (control-bin test-bin)
@@ -35,6 +36,8 @@
                        (set! verbose-flag? #t)]
    [("-p" "--plot") "Plot results"
                     (set! plot-flag? #t)]
+   [("--no-warmup") "Skip the warmup run. USE AT YOUR OWN RISK."
+                    (set! warmup? #false)]
    #:multi
    [("-t" "--target") target
                       "Only build a single target"
@@ -94,6 +97,8 @@
 (define (time-dir dir raco)
   (printf "building ~a" dir)
   (flush-output)
+  (when warmup?
+    (void (time-single-build dir raco)))
   (define times (for/list ([_ (in-range iters)])
                   (begin0 (time-single-build dir raco)
                           (printf ".")
