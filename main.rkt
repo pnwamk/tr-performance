@@ -38,7 +38,7 @@
                     (set! plot-flag? #t)]
    ;; to ensure we're not timing building the dependencies of a program and including
    ;; that in the program's build time, we run a "warmup" run first by default.
-   [("--no-warmup") "Skip the warmup run. Warning: timimg may include building dependencies."
+   [("--no-warmup") "Skip the warmup run. Warning: time may include building deps."
                     (set! warmup? #false)]
    #:multi
    [("-t" "--target") target
