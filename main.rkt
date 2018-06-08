@@ -11,6 +11,7 @@
 
 (define targets
   '(acquire
+    bernoulli
     dungeon
     forth
     fsm
