@@ -9,6 +9,8 @@
 
 (struct test-dir (name make clean) #:transparent)
 
+(struct result (name control csig test tsig) #:transparent)
+
 (define targets
   '(acquire
     bernoulli
@@ -88,13 +90,13 @@
     (process (format "/usr/bin/time -p ~a make ~a/main.rkt" raco dir)))
 
   (close-output-port outp)
-  (define result (string-split (read-line errp)))
+  (define result-str (string-split (read-line errp)))
   (close-input-port errp)
   (close-input-port inp)
   (cmd 'kill)
-  (match result
+  (match result-str
     [(list "real" time-str) (string->number time-str)]
-    [_ (error 'tr-performance "failed to time build for ~a, got ~a" dir result)]))
+    [_ (error 'tr-performance "failed to time build for ~a, got ~a" dir result-str)]))
 
 ;; build and time 'dir' several times, calculate mean/stddev
 (define (time-dir dir raco)
@@ -121,19 +123,19 @@
   [single-target?
    (define-values (control-mean control-std-dev) (time-dir single-target? raco-control))
    (define-values (test-mean test-std-dev) (time-dir single-target? raco-test))
-   (set! results (cons (list single-target? control-mean control-std-dev test-mean test-std-dev)
+   (set! results (cons (result single-target? control-mean control-std-dev test-mean test-std-dev)
                        results))]
   [else (for ([t (in-list targets)])
           (define-values (control-mean control-std-dev) (time-dir t raco-control))
           (define-values (test-mean test-std-dev) (time-dir t raco-test))
-          (set! results (cons (list t control-mean control-std-dev test-mean test-std-dev)
+          (set! results (cons (result t control-mean control-std-dev test-mean test-std-dev)
                               results)))])
 
 (printf "\nCompile time ratio (old time / new time):\n")
 ;; print out results
 (for ([r (in-list results)])
   (match r
-    [(list name control csig test tsig)
+    [(result name control csig test tsig)
      (define ratio (/ control test))
      (printf "~a: ~a (i.e. ~a, ~as (σ ~a) to ~as (σ ~a))\n"
              name
@@ -147,7 +149,7 @@
       ([(controls tests)
         (for/lists (_1 _2) ([r (in-list results)])
           (match r
-            [(list name control test)
+            [(result name control csig test tsig)
              (values (list name 100)
                      (list name (+ 100 (* 100 (/ (- test control) control)))))]))])
     (void (plot (list (discrete-histogram
